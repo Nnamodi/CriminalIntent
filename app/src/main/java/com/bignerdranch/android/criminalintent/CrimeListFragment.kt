@@ -62,7 +62,7 @@ class CrimeListFragment : Fragment() {
         }
 
         fun bind(crime: Crime) {
-            val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy HH:mm:ss a", Locale.ENGLISH)
+            val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy hh:mm:ss a", Locale.ENGLISH)
             this.crime = crime
             titleTextView.text = this.crime.title
             dateTextView.text = dateTimeFormat.format(this.crime.date)
