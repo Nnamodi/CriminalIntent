@@ -39,7 +39,7 @@ class CrimeListFragment : Fragment() {
             viewLifecycleOwner,
             Observer { crimes ->
                 crimes?.let {
-                    Log.i(TAG, "Got crime ${crimes.size}")
+                    Log.i(TAG, "Got ${crimes.size} crimes.")
                     updateUI(crimes)
                 }
             }
@@ -80,13 +80,8 @@ class CrimeListFragment : Fragment() {
 
     private inner class CrimeAdapter(var crimes: List<Crime>): RecyclerView.Adapter<CrimeHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
-//            return if (viewType == 1) {
             val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
             return CrimeHolder(view)
-//            } else {
-//                val policeView = layoutInflater.inflate(R.layout.police_contact, parent, false)
-//                CrimeHolder(policeView)
-//            }
         }
 
         override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
@@ -95,13 +90,6 @@ class CrimeListFragment : Fragment() {
         }
 
         override fun getItemCount() = crimes.size
-
-//        override fun getItemViewType(position: Int): Int {
-//            return when (crimes[position].requiresPolice) {
-//                true -> 1
-//                else -> 2
-//            }
-//        }
 
     }
 
