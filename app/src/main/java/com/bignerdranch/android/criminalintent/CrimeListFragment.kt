@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +48,7 @@ class CrimeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         crimeListViewModel.crimeListLiveData.observe( // This is used to register an observer on the LiveData instance and it ties the observer's life to that of the fragment or activity.
             viewLifecycleOwner,
-            Observer { crimes ->
+            { crimes ->
                 crimes?.let {
                     Log.i(TAG, "Got ${crimes.size} crimes.")
                     updateUI(crimes)
