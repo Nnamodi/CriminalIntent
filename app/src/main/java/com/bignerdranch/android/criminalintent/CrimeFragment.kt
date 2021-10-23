@@ -80,6 +80,11 @@ class CrimeFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        crimeDetailViewModel.saveCrime(crime)
+    }
+
     private fun updateUI() {
         val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy hh:mm:ss a", Locale.ENGLISH)
         titleField.setText(crime.title)
