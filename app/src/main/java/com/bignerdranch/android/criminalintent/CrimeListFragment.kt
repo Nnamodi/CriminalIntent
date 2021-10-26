@@ -10,12 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "CrimeListFragment"
+private const val SUBMIT = "submit list"
 
 class CrimeListFragment : Fragment() {
     /**
@@ -55,7 +58,6 @@ class CrimeListFragment : Fragment() {
                 }
             }
         )
-
     }
 
     override fun onDetach() { // This also implements Callback.
@@ -65,7 +67,7 @@ class CrimeListFragment : Fragment() {
 
     private fun updateUI(crimes: List<Crime>) {
         adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
+        adapter?.submitList(crimes as MutableList<Crime>?)
     }
 
     private inner class CrimeHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
@@ -95,7 +97,7 @@ class CrimeListFragment : Fragment() {
         }
     }
 
-    private inner class CrimeAdapter(var crimes: List<Crime>): RecyclerView.Adapter<CrimeHolder>() {
+    private inner class CrimeAdapter(var crimes: List<Crime>): ListAdapter<Crime, CrimeHolder>(DiffCallBack()) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
             val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
             return CrimeHolder(view)
@@ -108,6 +110,22 @@ class CrimeListFragment : Fragment() {
 
         override fun getItemCount() = crimes.size
 
+        override fun submitList(crimes: MutableList<Crime>?) {
+            if (crimes != null) {
+                Log.d(SUBMIT, "Crimes submitted, crime is ${crimes.size} in number and $crimes")
+            }
+            adapter?.crimes
+        }
+    }
+
+    class DiffCallBack : DiffUtil.ItemCallback<Crime>() {
+        override fun areItemsTheSame(oldItem: Crime, newItem: Crime): Boolean {
+            return oldItem.id === newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Crime, newItem: Crime): Boolean {
+            return oldItem == newItem
+        }
     }
 
     companion object {
