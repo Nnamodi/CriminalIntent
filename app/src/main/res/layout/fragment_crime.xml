@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp">
 
     <TextView
+        android:id="@+id/textView3"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/crime_title_label"/>
+        android:text="@string/crime_title_label"
+        app:layout_constraintStart_toStartOf="@+id/crime_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/crime_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/crime_title_hint"
         android:autofillHints="@string/crime_autofill_hint"
-        android:inputType="text" />
+        android:hint="@string/crime_title_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
+        android:id="@+id/textView4"
         style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/crime_details_label"/>
+        android:text="@string/crime_details_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crime_title" />
 
     <Button
         android:id="@+id/crime_date"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Fri Oct 8 5:29 EST 2021"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="Fri Oct 8 5:29 EST 2021" />
+
 
     <CheckBox
         android:id="@+id/crime_solved"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/crime_solved_label"/>
+        android:text="@string/crime_solved_label"
+        app:layout_constraintBaseline_toBaselineOf="@+id/requires_police"
+        app:layout_constraintEnd_toStartOf="@+id/requires_police"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+    <CheckBox
+        android:id="@+id/requires_police"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/requires_police_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/crime_solved"
+        app:layout_constraintTop_toBottomOf="@+id/crime_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

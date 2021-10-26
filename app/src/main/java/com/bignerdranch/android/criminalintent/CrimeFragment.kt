@@ -21,6 +21,7 @@ class CrimeFragment : Fragment() {
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
     private lateinit var solvedCheckBox: CheckBox
+    private lateinit var requiresPoliceCheckBox: CheckBox
     private val crimeDetailViewModel: CrimeDetailViewModel by lazy {
         ViewModelProvider(this).get(CrimeDetailViewModel::class.java)
     }
@@ -37,6 +38,7 @@ class CrimeFragment : Fragment() {
         titleField = view.findViewById(R.id.crime_title) as EditText
         dateButton = view.findViewById(R.id.crime_date) as Button
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
+        requiresPoliceCheckBox = view.findViewById(R.id.requires_police) as CheckBox
         dateButton.apply {
             text = crime.date.toString()
             isEnabled = false
@@ -78,6 +80,11 @@ class CrimeFragment : Fragment() {
                 crime.isSolved = isChecked
             }
         }
+        requiresPoliceCheckBox.apply {
+            setOnCheckedChangeListener { _, isChecked ->
+                crime.requiresPolice = isChecked
+            }
+        }
     }
 
     override fun onStop() {
@@ -90,6 +97,7 @@ class CrimeFragment : Fragment() {
         titleField.setText(crime.title)
         dateButton.text = dateTimeFormat.format(this.crime.date)
         solvedCheckBox.isChecked = crime.isSolved
+        requiresPoliceCheckBox.isChecked = crime.requiresPolice
     }
 
     companion object {
