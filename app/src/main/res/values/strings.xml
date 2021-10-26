@@ -9,4 +9,5 @@
     <string name="crime_date">Crime Date</string>
     <string name="contact_police">Contact Police</string>
     <string name="crime_is_solved">Crime is solved.</string>
+    <string name="requires_police_label">Requires police</string>
 </resources>
