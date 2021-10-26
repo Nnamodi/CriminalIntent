@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -68,7 +67,6 @@ class CrimeListFragment : Fragment() {
 
     private fun updateUI(crimes: List<Crime>) {
         adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
         adapter?.submitList(crimes as MutableList<Crime>?)
     }
 
@@ -77,7 +75,6 @@ class CrimeListFragment : Fragment() {
         private val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
         private val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
         private var solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved)
-        private var contactPoliceButton: Button = itemView.findViewById(R.id.contact_police_button)
 
         init {
             itemView.setOnClickListener(this)
@@ -89,11 +86,6 @@ class CrimeListFragment : Fragment() {
             titleTextView.text = this.crime.title
             dateTextView.text = dateTimeFormat.format(this.crime.date)
             solvedImageView.visibility = if (crime.isSolved) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            contactPoliceButton.visibility = if (crime.requiresPolice) {
                 View.VISIBLE
             } else {
                 View.GONE

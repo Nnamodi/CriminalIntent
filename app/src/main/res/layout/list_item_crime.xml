@@ -39,24 +39,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/crime_is_solved"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_solved" />
-
-    <Button
-        android:id="@+id/contact_police_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/contact_police"
-        android:textAllCaps="true"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toStartOf="@+id/crime_solved"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crime_date" />
+        app:srcCompat="@drawable/ic_solved"
+        android:contentDescription="@string/crime_is_solved" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
