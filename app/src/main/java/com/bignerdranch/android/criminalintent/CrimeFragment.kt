@@ -3,6 +3,7 @@ package com.bignerdranch.android.criminalintent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,17 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
 import java.util.*
 
 private const val ARG_CRIME_ID = "crime_id"
+private const val DIALOG_DATE = "DialogDate"
+const val REQUEST_DATE = "DialogDate"
+private const val TAG ="CrimeFragment"
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
@@ -39,10 +44,6 @@ class CrimeFragment : Fragment() {
         dateButton = view.findViewById(R.id.crime_date) as Button
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
         requiresPoliceCheckBox = view.findViewById(R.id.requires_police) as CheckBox
-        dateButton.apply {
-            text = crime.date.toString()
-            isEnabled = false
-        }
         return view
     }
 
@@ -85,11 +86,28 @@ class CrimeFragment : Fragment() {
                 crime.requiresPolice = isChecked
             }
         }
+        dateButton.setOnClickListener {
+            DatePickerFragment.newInstance(crime.date).apply {
+                show(this@CrimeFragment.childFragmentManager, DIALOG_DATE)
+            }
+            childFragmentManager.setFragmentResultListener(REQUEST_DATE, viewLifecycleOwner, this)
+        }
+    }
+
+    override fun onFragmentResult(requestKey: String, result: Bundle) {
+        Log.d(TAG, "Received both requestKey: $requestKey and result: $result.")
+        crime.date = DatePickerFragment.newDate(result)
+        updateUI()
     }
 
     override fun onStop() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
+    }
+
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
     }
 
     private fun updateUI() {
