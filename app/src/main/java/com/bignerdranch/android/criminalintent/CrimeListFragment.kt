@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
@@ -84,7 +85,7 @@ class CrimeListFragment : Fragment() {
         }
 
         fun bind(crime: Crime) {
-            val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy hh:mm:ss a", Locale.ENGLISH)
+            val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' hh:mm:ss a", Locale.ENGLISH)
             this.crime = crime
             titleTextView.text = this.crime.title
             dateTextView.text = dateTimeFormat.format(this.crime.date)
@@ -97,6 +98,9 @@ class CrimeListFragment : Fragment() {
                 View.VISIBLE
             } else {
                 View.GONE
+            }
+            contactPoliceButton.setOnClickListener {
+                Toast.makeText(context, "If the call connect, you no go shock?", Toast.LENGTH_SHORT).show()
             }
         }
 

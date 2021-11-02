@@ -18,13 +18,16 @@ import java.util.*
 
 private const val ARG_CRIME_ID = "crime_id"
 private const val DIALOG_DATE = "DialogDate"
-const val REQUEST_DATE = "DialogDate"
+const val REQUEST_DATE = "requestDate"
 private const val TAG ="CrimeFragment"
+private const val DIALOG_TIME = "DialogTime"
+const val REQUEST_TIME = "requestTime"
 
-class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener, TimePickerFragment.Callbacks {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
+    private lateinit var timeButton: Button
     private lateinit var solvedCheckBox: CheckBox
     private lateinit var requiresPoliceCheckBox: CheckBox
     private val crimeDetailViewModel: CrimeDetailViewModel by lazy {
@@ -42,6 +45,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         val view = inflater.inflate(R.layout.fragment_crime, container, false)
         titleField = view.findViewById(R.id.crime_title) as EditText
         dateButton = view.findViewById(R.id.crime_date) as Button
+        timeButton = view.findViewById(R.id.crime_time) as Button
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
         requiresPoliceCheckBox = view.findViewById(R.id.requires_police) as CheckBox
         return view
@@ -92,11 +96,18 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             }
             childFragmentManager.setFragmentResultListener(REQUEST_DATE, viewLifecycleOwner, this)
         }
+        timeButton.setOnClickListener {
+            TimePickerFragment.newInstance(crime.date).apply {
+                show(this@CrimeFragment.childFragmentManager, DIALOG_TIME)
+            }
+            childFragmentManager.setFragmentResultListener(REQUEST_TIME, viewLifecycleOwner, this)
+        }
     }
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
         Log.d(TAG, "Received both requestKey: $requestKey and result: $result.")
         crime.date = DatePickerFragment.newDate(result)
+        crime.date = TimePickerFragment.newTime(result) // An error here!
         updateUI()
     }
 
@@ -110,12 +121,19 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         updateUI()
     }
 
+    override fun onTimeSelected(time: Date) {
+        crime.date = time
+        updateUI()
+    }
+
     private fun updateUI() {
-        val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy hh:mm:ss a", Locale.ENGLISH)
+        val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.ENGLISH)
+        val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH)
         titleField.setText(crime.title)
         dateButton.text = dateTimeFormat.format(this.crime.date)
         solvedCheckBox.isChecked = crime.isSolved
         requiresPoliceCheckBox.isChecked = crime.requiresPolice
+        timeButton.text = timeFormat.format(this.crime.date)
     }
 
     companion object {
