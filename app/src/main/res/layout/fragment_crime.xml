@@ -74,4 +74,22 @@
         app:layout_constraintStart_toEndOf="@id/crime_solved"
         app:layout_constraintTop_toBottomOf="@+id/crime_time" />
 
+    <Button
+        android:id="@+id/crime_suspect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/crime_suspect_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/requires_police" />
+
+    <Button
+        android:id="@+id/crime_report"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/crime_report_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crime_suspect" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
