@@ -29,6 +29,8 @@ class CrimeListFragment : Fragment() {
     }
     private var callbacks: Callbacks? = null
     private lateinit var crimeRecyclerView: RecyclerView
+    private lateinit var emptyView: TextView
+    private lateinit var addCrime: Button
     private var adapter: CrimeAdapter? = CrimeAdapter(emptyList())
     private val crimeListViewModel: CriminalListViewModel by lazy {
         ViewModelProvider(this).get(CriminalListViewModel::class.java)
@@ -49,6 +51,13 @@ class CrimeListFragment : Fragment() {
         crimeRecyclerView = view.findViewById(R.id.crime_recycler_view) as RecyclerView
         crimeRecyclerView.layoutManager = LinearLayoutManager(context)
         crimeRecyclerView.adapter = adapter
+        emptyView = view.findViewById(R.id.no_crime) as TextView
+        addCrime = view.findViewById(R.id.add_crime) as Button
+        addCrime.setOnClickListener {
+            val crime = Crime()
+            crimeListViewModel.addCrime(crime)
+            callbacks?.onCrimeSelected(crime.id)
+        }
         return view
     }
 
@@ -88,6 +97,15 @@ class CrimeListFragment : Fragment() {
     }
 
     private fun updateUI(crimes: List<Crime>) {
+        if (crimes.isEmpty()) {
+            crimeRecyclerView.visibility = View.GONE
+            emptyView.visibility = View.VISIBLE
+            addCrime.visibility = View.VISIBLE
+        } else {
+            crimeRecyclerView.visibility = View.VISIBLE
+            emptyView.visibility = View.GONE
+            addCrime.visibility = View.GONE
+        }
         adapter = CrimeAdapter(crimes)
         crimeRecyclerView.adapter = adapter
         adapter?.submitList(crimes as MutableList<Crime>?)

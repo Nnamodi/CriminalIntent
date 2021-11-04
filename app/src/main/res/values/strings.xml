@@ -11,4 +11,6 @@
     <string name="crime_is_solved">Crime is solved.</string>
     <string name="requires_police_label">Requires police</string>
     <string name="new_crime">New Crime</string>
+    <string name="no_crime_added_yet">No crimes added yet.</string>
+    <string name="add_crime">Add Crime</string>
 </resources>
