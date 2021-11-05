@@ -2,6 +2,8 @@ package com.bignerdranch.android.criminalintent
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -128,6 +130,13 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             setOnClickListener {
                 startActivityForResult(pickContactIntent, REQUEST_CONTACT)
             }
+            // Disable the button if no activity match the Intent given
+            val packageManager: PackageManager = requireActivity().packageManager
+            val resolvedActivity: ResolveInfo? =
+                packageManager.resolveActivity(pickContactIntent, PackageManager.MATCH_DEFAULT_ONLY)
+            if (resolvedActivity == null) {
+                isEnabled = false
+            }
         }
     }
 
@@ -162,7 +171,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         requiresPoliceCheckBox.isChecked = crime.requiresPolice
         timeButton.text = timeFormat.format(this.crime.date)
         if (crime.suspect.isNotEmpty()) {
-            suspectButton.text = crime.suspect
+            suspectButton.text = getString(R.string.suspect, crime.suspect)
         }
     }
 
