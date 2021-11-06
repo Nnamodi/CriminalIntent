@@ -14,9 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +27,8 @@ const val REQUEST_DATE = "requestDate"
 private const val TAG ="CrimeFragment"
 private const val DIALOG_TIME = "DialogTime"
 const val REQUEST_TIME = "requestTime"
-private const val DATE_FORMAT = "EEE, MMM, dd"
+private const val DATE_FORMAT = "EEE, MMM dd, yyyy"
+private const val TIME_FORMAT = "hh:mm:ss a"
 private const val REQUEST_CONTACT = 1
 
 class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener, TimePickerFragment.Callbacks {
@@ -210,12 +209,18 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             getString(R.string.crime_report_unsolved)
         }
         val dateString = DateFormat.format(DATE_FORMAT, crime.date).toString()
+        val time = DateFormat.format(TIME_FORMAT, crime.date).toString()
+        val police = if (crime.requiresPolice) {
+            getString(R.string.crime_report_police_required)
+        } else {
+            getString(R.string.crime_report_no_police)
+        }
         val suspect = if (crime.suspect.isBlank()) {
             getString(R.string.crime_report_no_suspect)
         } else {
             getString(R.string.crime_report_suspect, crime.suspect)
         }
-        return getString(R.string.crime_report, crime.title, dateString, solvedString, suspect)
+        return getString(R.string.crime_report, crime.title, dateString, time, solvedString, police, suspect)
     }
 
     companion object {
