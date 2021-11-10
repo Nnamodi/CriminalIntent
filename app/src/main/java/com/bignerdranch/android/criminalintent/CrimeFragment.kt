@@ -31,7 +31,7 @@ private const val DATE_FORMAT = "EEE, MMM dd, yyyy"
 private const val TIME_FORMAT = "hh:mm:ss a"
 private const val REQUEST_CONTACT = 1
 
-class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener, TimePickerFragment.Callbacks {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
@@ -112,7 +112,11 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             TimePickerFragment.newInstance(crime.date).apply {
                 show(this@CrimeFragment.childFragmentManager, DIALOG_TIME)
             }
-            childFragmentManager.setFragmentResultListener(REQUEST_TIME, viewLifecycleOwner, this)
+            childFragmentManager.setFragmentResultListener(REQUEST_TIME, viewLifecycleOwner) { _, bundle ->
+                val result = bundle.getSerializable(TIME_KEY) as Date
+                crime.date = result
+                updateUI()
+            }
         }
         reportButton.setOnClickListener {
             Intent(Intent.ACTION_SEND).apply {
@@ -142,22 +146,17 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     override fun onFragmentResult(requestKey: String, result: Bundle) {
         Log.d(TAG, "Received both requestKey: $requestKey and result: $result.")
         crime.date = DatePickerFragment.newDate(result)
-        crime.date = TimePickerFragment.newTime(result) // An error here!
         updateUI()
     }
 
     override fun onStop() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
+        Toast.makeText(context, "Crime saved", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDateSelected(date: Date) {
         crime.date = date
-        updateUI()
-    }
-
-    override fun onTimeSelected(time: Date) {
-        crime.date = time
         updateUI()
     }
 

@@ -8,13 +8,9 @@ import androidx.fragment.app.DialogFragment
 import java.util.*
 
 private const val ARG_TIME = "time"
-private const val TIME_KEY = "timeKey"
+const val TIME_KEY = "timeKey"
 
 class TimePickerFragment : DialogFragment() {
-
-    interface Callbacks {
-        fun onTimeSelected(time: Date)
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val timeListener = TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
@@ -53,10 +49,6 @@ class TimePickerFragment : DialogFragment() {
             return TimePickerFragment().apply {
                 arguments = args
             }
-        }
-
-        fun newTime(result: Bundle): Date {
-            return result.getSerializable(TIME_KEY) as Date
         }
     }
 }
