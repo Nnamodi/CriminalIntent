@@ -11,4 +11,5 @@ data class Crime(@PrimaryKey
                  var date: Date = Date(),
                  var isSolved: Boolean = false,
                  var requiresPolice: Boolean = false,
-                 var suspect: String = "")
+                 var suspect: String = "",
+                 var number: String = "")

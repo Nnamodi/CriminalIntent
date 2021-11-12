@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +32,7 @@ const val REQUEST_TIME = "requestTime"
 private const val DATE_FORMAT = "EEE, MMM dd, yyyy"
 private const val TIME_FORMAT = "hh:mm:ss a"
 private const val REQUEST_CONTACT = 1
+private const val CALL_CONTACT = 2
 
 class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener {
     private lateinit var crime: Crime
@@ -38,6 +41,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     private lateinit var timeButton: Button
     private lateinit var reportButton: Button
     private lateinit var suspectButton: Button
+    private lateinit var callSuspectButton: ImageButton
     private lateinit var solvedCheckBox: CheckBox
     private lateinit var requiresPoliceCheckBox: CheckBox
     private val crimeDetailViewModel: CrimeDetailViewModel by lazy {
@@ -58,6 +62,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         timeButton = view.findViewById(R.id.crime_time) as Button
         reportButton = view.findViewById(R.id.crime_report) as Button
         suspectButton = view.findViewById(R.id.crime_suspect) as Button
+        callSuspectButton = view.findViewById(R.id.call_suspect) as ImageButton
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
         requiresPoliceCheckBox = view.findViewById(R.id.requires_police) as CheckBox
         return view
@@ -141,6 +146,17 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 isEnabled = false
             }
         }
+        callSuspectButton.setOnClickListener {
+            // Based on a challenge
+            if (crime.suspect.isNotEmpty()) {
+                requestPermissionLauncher.launch(
+                    Manifest.permission.READ_CONTACTS
+                )
+                Log.i("Phone number", "Phone number is ${crime.number}, suspect is ${crime.suspect}.")
+            } else {
+                Toast.makeText(context, "No suspect to call!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
@@ -152,7 +168,11 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     override fun onStop() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
+    }
+
+    override fun onDestroy() {
         Toast.makeText(context, "Crime saved", Toast.LENGTH_SHORT).show()
+        super.onDestroy()
     }
 
     override fun onDateSelected(date: Date) {
@@ -179,7 +199,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             requestCode == REQUEST_CONTACT && data != null -> {
                 val contactUri: Uri? = data.data
                 // Specify which fields you want your query to return values for
-                val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME)
+                val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts._ID)
                 // Perform your query - the contactUri is like a "where" clause here
                 val cursor = contactUri?.let {
                     requireActivity().contentResolver.query(it, queryFields, null, null, null)
@@ -196,6 +216,24 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                     crime.suspect = suspect
                     crimeDetailViewModel.saveCrime(crime)
                     suspectButton.text = suspect
+                }
+            }
+            requestCode == CALL_CONTACT && data!= null -> {
+                val phoneURI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+                val queryFields = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                val phoneWhereClause = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?"
+                val phoneQueryParameters = listOf( crime.suspect )
+                val phoneCursor = requireActivity()
+                    .contentResolver
+                    .query(phoneURI, queryFields, phoneWhereClause, phoneQueryParameters.toTypedArray(), null)
+                phoneCursor?.use {
+                    if (it.count == 0) {
+                        return
+                    }
+                    it.moveToFirst()
+                    val number = it.getString(0)//it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    crime.number = number
+                    crimeDetailViewModel.saveCrime(crime)
                 }
             }
         }
@@ -221,6 +259,22 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         }
         return getString(R.string.crime_report, crime.title, dateString, time, solvedString, police, suspect)
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                val callContactIntent =
+                    Intent(Intent.ACTION_DIAL).apply {
+                        val phone = crime.number
+                        data = Uri.parse("tel: $phone")
+                    }
+                startActivityForResult(callContactIntent, CALL_CONTACT)
+            } else {
+                Log.i("Permission: ", "Denied")
+            }
+        }
 
     companion object {
         fun newInstance(crimeId: UUID): CrimeFragment {
