@@ -26,4 +26,6 @@
     <string name="send_report">Send crime report via</string>
     <string name="suspect">Suspect: %s</string>
     <string name="call_suspect">Call suspect</string>
+    <string name="take_a_picture">Take a picture</string>
+    <string name="crime_picture">Crime picture</string>
 </resources>
