@@ -128,12 +128,12 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             childFragmentManager.setFragmentResultListener(REQUEST_DATE, viewLifecycleOwner, this)
         }
         timeButton.setOnClickListener {
-            TimePickerFragment.newInstance(crime.date).apply {
+            TimePickerFragment.newInstance(crime.time).apply {
                 show(this@CrimeFragment.childFragmentManager, DIALOG_TIME)
             }
             childFragmentManager.setFragmentResultListener(REQUEST_TIME, viewLifecycleOwner) { _, bundle ->
                 val result = bundle.getSerializable(TIME_KEY) as Date
-                crime.date = result
+                crime.time = result
                 updateUI()
             }
         }
@@ -220,7 +220,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         dateButton.text = dateTimeFormat.format(this.crime.date)
         solvedCheckBox.isChecked = crime.isSolved
         requiresPoliceCheckBox.isChecked = crime.requiresPolice
-        timeButton.text = timeFormat.format(this.crime.date)
+        timeButton.text = timeFormat.format(this.crime.time)
         if (crime.suspect.isNotEmpty()) {
             suspectButton.text = getString(R.string.suspect, crime.suspect)
         }
@@ -279,7 +279,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             getString(R.string.crime_report_unsolved)
         }
         val dateString = DateFormat.format(DATE_FORMAT, crime.date).toString()
-        val time = DateFormat.format(TIME_FORMAT, crime.date).toString()
+        val time = DateFormat.format(TIME_FORMAT, crime.time).toString()
         val police = if (crime.requiresPolice) {
             getString(R.string.crime_report_police_required)
         } else {

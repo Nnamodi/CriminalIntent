@@ -115,6 +115,7 @@ class CrimeListFragment : Fragment() {
         private lateinit var crime: Crime
         private val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
         private val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
+        private val timeTextView: TextView = itemView.findViewById(R.id.crime_time)
         private var solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved)
         private var contactPoliceButton: Button = itemView.findViewById(R.id.contact_police_button)
 
@@ -123,10 +124,12 @@ class CrimeListFragment : Fragment() {
         }
 
         fun bind(crime: Crime) {
-            val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' hh:mm:ss a", Locale.ENGLISH)
+            val dateFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' ", Locale.ENGLISH)
+            val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH)
             this.crime = crime
             titleTextView.text = this.crime.title
-            dateTextView.text = dateTimeFormat.format(this.crime.date)
+            dateTextView.text = dateFormat.format(this.crime.date)
+            timeTextView.text = timeFormat.format(this.crime.time)
             solvedImageView.visibility = if (crime.isSolved) {
                 View.VISIBLE
             } else {
