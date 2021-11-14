@@ -148,16 +148,20 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             }
         }
         suspectButton.apply {
-            val pickContactIntent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
             setOnClickListener {
-                startActivityForResult(pickContactIntent, REQUEST_CONTACT)
-            }
-            // Disable the button if no activity match the Intent given
-            val packageManager: PackageManager = requireActivity().packageManager
-            val resolvedActivity: ResolveInfo? =
-                packageManager.resolveActivity(pickContactIntent, PackageManager.MATCH_DEFAULT_ONLY)
-            if (resolvedActivity == null) {
-                isEnabled = false
+                val pickContactIntent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+                // Disable the button if no activity match the Intent given
+                val packageManager: PackageManager = requireActivity().packageManager
+                val resolvedActivity: ResolveInfo? =
+                    packageManager.resolveActivity(pickContactIntent, PackageManager.MATCH_DEFAULT_ONLY)
+
+                if (resolvedActivity != null) {
+                    startActivityForResult(pickContactIntent, REQUEST_CONTACT)
+                } else {
+                    Toast.makeText(context,
+                        "No Contact app found!\nDownload a Contact app first.",
+                        Toast.LENGTH_LONG).show()
+                }
             }
         }
         callSuspectButton.setOnClickListener {
@@ -176,10 +180,12 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             val resolvedActivity: ResolveInfo? =
                 packageManager.resolveActivity(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
-            if (resolvedActivity == null) {
-                isEnabled = false
-            }
             setOnClickListener {
+                if (resolvedActivity != null){
+                    startActivityForResult(captureImage, REQUEST_PHOTO)
+                } else {
+                    Toast.makeText(context, "No Camera app found!\nDownload a Camera app first.", Toast.LENGTH_LONG).show()
+                }
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 val cameraActivities: List<ResolveInfo> =
                     packageManager.queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
@@ -187,7 +193,6 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                     requireActivity().grantUriPermission(cameraActivity.activityInfo.packageName,
                     photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 }
-                startActivityForResult(captureImage, REQUEST_PHOTO)
             }
         }
     }
@@ -201,6 +206,12 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     override fun onStop() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        requireActivity().revokeUriPermission(photoUri,
+        Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
     override fun onDestroy() {
@@ -223,6 +234,16 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         timeButton.text = timeFormat.format(this.crime.time)
         if (crime.suspect.isNotEmpty()) {
             suspectButton.text = getString(R.string.suspect, crime.suspect)
+        }
+        updatePhotoView()
+    }
+
+    private fun updatePhotoView() {
+        if (photoFile.exists()) {
+            val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+            photoView.setImageBitmap(bitmap)
+        } else {
+            photoView.setImageDrawable(null)
         }
     }
 
@@ -268,6 +289,11 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                     crime.number = number
                     crimeDetailViewModel.saveCrime(crime)
                 }
+            }
+            requestCode == REQUEST_PHOTO -> {
+                requireActivity().revokeUriPermission(photoUri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                updatePhotoView()
             }
         }
     }
