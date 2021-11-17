@@ -181,11 +181,6 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             val resolvedActivity: ResolveInfo? =
                 packageManager.resolveActivity(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
             setOnClickListener {
-                if (resolvedActivity != null){
-                    startActivityForResult(captureImage, REQUEST_PHOTO)
-                } else {
-                    Toast.makeText(context, "No Camera app found!\nDownload a Camera app first.", Toast.LENGTH_LONG).show()
-                }
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 val cameraActivities: List<ResolveInfo> =
                     packageManager.queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
@@ -193,6 +188,17 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                     requireActivity().grantUriPermission(cameraActivity.activityInfo.packageName,
                     photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 }
+                if (resolvedActivity != null) {
+                    startActivityForResult(captureImage, REQUEST_PHOTO)
+                } else {
+                    Toast.makeText(context, "No Camera app found!\nDownload a Camera app first.",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        photoView.setOnClickListener {
+            ZoomedInDialogFragment.zoomedPic(photoFile).apply {
+                show(this@CrimeFragment.childFragmentManager, "image")
             }
         }
     }
@@ -242,8 +248,10 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         if (photoFile.exists()) {
             val bitmap = getScaledBitmap(photoFile.path, requireActivity())
             photoView.setImageBitmap(bitmap)
+            Log.i("fulls","pic is $photoFile")
         } else {
             photoView.setImageDrawable(null)
+            Log.i("null", "no pics")
         }
     }
 

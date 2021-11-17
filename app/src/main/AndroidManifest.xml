@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bignerdranch.android.criminalintent">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+    </queries>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.hardware.camera"
         android:required="false"/>

@@ -4,12 +4,17 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
+import android.os.Build
 import kotlin.math.roundToInt
 
 fun getScaledBitmap(path: String, activity: Activity): Bitmap {
     // Checks how big the screen is and scales image to the size
     val size = Point()
-    activity.windowManager.defaultDisplay.getSize(size)
+    val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        activity.display
+    } else {
+        activity.windowManager.defaultDisplay }
+    display?.getSize(size)
 
     return getScaledBitmap(path, size.x, size.y)
 }
