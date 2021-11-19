@@ -12,9 +12,8 @@
         android:layout_height="130dp"
         android:background="@android:color/darker_gray"
         android:contentDescription="@string/crime_picture"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/crime_camera"
-        app:layout_constraintEnd_toStartOf="@+id/crime_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

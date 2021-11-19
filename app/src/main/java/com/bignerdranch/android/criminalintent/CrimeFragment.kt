@@ -42,6 +42,8 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     private lateinit var crime: Crime
     private lateinit var photoFile: File
     private lateinit var photoUri: Uri
+    private var viewHeight = 0
+    private var viewWidth = 0
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
     private lateinit var timeButton: Button
@@ -75,6 +77,10 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         photoView = view.findViewById(R.id.crime_photo) as ImageView
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
         requiresPoliceCheckBox = view.findViewById(R.id.requires_police) as CheckBox
+        photoView.viewTreeObserver.addOnGlobalLayoutListener {
+            viewHeight = photoView.height
+            viewWidth = photoView.width
+        }
         return view
     }
 
@@ -246,7 +252,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
 
     private fun updatePhotoView() {
         if (photoFile.exists()) {
-            val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+            val bitmap = getScaledBitmap(photoFile.path, viewWidth, viewHeight)
             photoView.setImageBitmap(bitmap)
             Log.i("fulls","pic is $photoFile")
         } else {
