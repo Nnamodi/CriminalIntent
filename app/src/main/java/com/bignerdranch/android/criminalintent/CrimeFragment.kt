@@ -164,9 +164,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 if (resolvedActivity != null) {
                     startActivityForResult(pickContactIntent, REQUEST_CONTACT)
                 } else {
-                    Toast.makeText(context,
-                        "No Contact app found!\nDownload a Contact app first.",
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.no_contact_app, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -178,7 +176,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 )
                 Log.i("Phone number", "Phone number is ${crime.number}, suspect is ${crime.suspect}.")
             } else {
-                Toast.makeText(context, "No suspect to call!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.no_suspect, Toast.LENGTH_SHORT).show()
             }
         }
         photoButton.apply {
@@ -197,8 +195,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 if (resolvedActivity != null) {
                     startActivityForResult(captureImage, REQUEST_PHOTO)
                 } else {
-                    Toast.makeText(context, "No Camera app found!\nDownload a Camera app first.",
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.no_camera_app, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -227,7 +224,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     }
 
     override fun onDestroy() {
-        Toast.makeText(context, "Crime saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.crime_saved, Toast.LENGTH_SHORT).show()
         super.onDestroy()
     }
 
@@ -237,8 +234,8 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
     }
 
     private fun updateUI() {
-        val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.ENGLISH)
-        val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH)
+        val dateTimeFormat = SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
         titleField.setText(crime.title)
         dateButton.text = dateTimeFormat.format(this.crime.date)
         solvedCheckBox.isChecked = crime.isSolved

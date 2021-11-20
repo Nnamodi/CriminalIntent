@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IntentoCriminal</string>
+    <string name="crime_title_hint">Ingrese un título para el crimen.</string>
+    <string name="crime_autofill_hint">Ladrón de la taza de café</string>
+    <string name="crime_title_label">Título</string>
+    <string name="crime_details_label">Detalles</string>
+    <string name="crime_solved_label">Resuelto</string>
+    <string name="crime_title">Título del Crimen</string>
+    <string name="crime_date">Fecha del Crimen</string>
+    <string name="crime_time">Tiempo del Crimen</string>
+    <string name="contact_police">Contactar a la Policía</string>
+    <string name="crime_is_solved">Se resuelve el Crimen.</string>
+    <string name="requires_police_label">Requiere Policía</string>
+    <string name="new_crime">Nuevo Crimen</string>
+    <string name="no_crime_added_yet">Aún no se han agregado delitos.</string>
+    <string name="add_crime">Agregue Crimen</string>
+    <string name="crime_suspect_text">Elegir Sospechoso</string>
+    <string name="crime_report_text">Enviar el Informe del Crimen</string>
+    <string name="crime_report">Título del Crimen: %1$s!\nEl crimen fue descubierto el %2$s a las %3s.\n%4s pero %5s, y %6s</string>
+    <string name="crime_report_solved">El caso está resuelto</string>
+    <string name="crime_report_unsolved">Desafortunadamente, el caso no está resuelto</string>
+    <string name="crime_report_police_required">requiere policía</string>
+    <string name="crime_report_no_police">No requiere policía</string>
+    <string name="crime_report_no_suspect">no hay sospechoso.</string>
+    <string name="crime_report_suspect">el sospechoso es %s.</string>
+    <string name="crime_report_subject">IntentoCriminal Informe del Crimen</string>
+    <string name="send_report">Enviar el informe del crimen a través de</string>
+    <string name="suspect">Sospechar: %s</string>
+    <string name="call_suspect">Llame al suspechoso</string>
+    <string name="take_a_picture">Toma una foto</string>
+    <string name="crime_picture">Foto del Crimen</string>
+    <string name="crime_photo">Foto del Crimen</string>
+    <string name="police_button_text">Si la llamada se conecta, No te sorprenderás?</string>
+    <string name="no_contact_app">No se encontró ninguna aplicación de Contacto!\nPrimero descargue la aplicacíon de la Contacto.</string>
+    <string name="no_suspect">Ningún sospechoso al que llamar!</string>
+    <string name="no_camera_app">No se encontró ninguna aplicación de Cámara!\nPrimero descargue la aplicacíon de la Cámara.</string>
+    <string name="crime_saved">Crimen Salvado</string>
+</resources>

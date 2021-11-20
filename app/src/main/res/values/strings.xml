@@ -30,4 +30,9 @@
     <string name="take_a_picture">Take a picture</string>
     <string name="crime_picture">Crime picture</string>
     <string name="crime_photo">Crime Photo</string>
+    <string name="police_button_text">If the call connect, you no go shock?</string>
+    <string name="no_contact_app">No Contact app found!\nDownload a Contact app first.</string>
+    <string name="no_suspect">No suspect to call!</string>
+    <string name="no_camera_app">No Camera app found!\nDownload a Camera app first.</string>
+    <string name="crime_saved">Crime saved</string>
 </resources>

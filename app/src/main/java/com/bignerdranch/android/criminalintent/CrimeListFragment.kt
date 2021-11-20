@@ -124,8 +124,8 @@ class CrimeListFragment : Fragment() {
         }
 
         fun bind(crime: Crime) {
-            val dateFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' ", Locale.ENGLISH)
-            val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH)
+            val dateFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' ", Locale.getDefault())
+            val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
             this.crime = crime
             titleTextView.text = this.crime.title
             dateTextView.text = dateFormat.format(this.crime.date)
@@ -141,7 +141,7 @@ class CrimeListFragment : Fragment() {
                 View.GONE
             }
             contactPoliceButton.setOnClickListener {
-                Toast.makeText(context, "If the call connect, you no go shock?", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.police_button_text, Toast.LENGTH_SHORT).show()
             }
         }
 
