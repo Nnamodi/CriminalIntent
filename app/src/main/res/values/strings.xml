@@ -27,7 +27,6 @@
     <string name="send_report">Send crime report via</string>
     <string name="suspect">Suspect: %s</string>
     <string name="call_suspect">Call suspect</string>
-    <string name="take_a_picture">Take a picture</string>
     <string name="crime_picture">Crime picture</string>
     <string name="crime_photo">Crime Photo</string>
     <string name="police_button_text">If the call connect, you no go shock?</string>
@@ -35,4 +34,7 @@
     <string name="no_suspect">No suspect to call!</string>
     <string name="no_camera_app">No Camera app found!\nDownload a Camera app first.</string>
     <string name="crime_saved">Crime saved</string>
+    <string name="crime_photo_button_description">Take photo of crime scene</string>
+    <string name="crime_photo_no_image_description">Crime scene photo (not set)</string>
+    <string name="crime_photo_image_description">Crime scene photo (set)</string>
 </resources>

@@ -28,12 +28,14 @@
     <string name="send_report">Enviar el informe del crimen a través de</string>
     <string name="suspect">Sospechar: %s</string>
     <string name="call_suspect">Llame al suspechoso</string>
-    <string name="take_a_picture">Toma una foto</string>
     <string name="crime_picture">Foto del Crimen</string>
     <string name="crime_photo">Foto del Crimen</string>
-    <string name="police_button_text">Si la llamada se conecta, No te sorprenderás?</string>
+    <string name="police_button_text">Si la llamada se conecta, no te sorprenderás?</string>
     <string name="no_contact_app">No se encontró ninguna aplicación de Contacto!\nPrimero descargue la aplicacíon de la Contacto.</string>
     <string name="no_suspect">Ningún sospechoso al que llamar!</string>
     <string name="no_camera_app">No se encontró ninguna aplicación de Cámara!\nPrimero descargue la aplicacíon de la Cámara.</string>
     <string name="crime_saved">Crimen Salvado</string>
+    <string name="crime_photo_button_description">Tomar foto de la escena del crimen</string>
+    <string name="crime_photo_no_image_description">Foto de la escena del crimen (no establecida)</string>
+    <string name="crime_photo_image_description">Foto de la escena del crimen (establecida)</string>
 </resources>

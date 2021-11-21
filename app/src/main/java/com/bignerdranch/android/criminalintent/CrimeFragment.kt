@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -164,7 +165,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 if (resolvedActivity != null) {
                     startActivityForResult(pickContactIntent, REQUEST_CONTACT)
                 } else {
-                    Toast.makeText(context, R.string.no_contact_app, Toast.LENGTH_LONG).show()
+                    Snackbar.make(this, R.string.no_contact_app, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -195,13 +196,17 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 if (resolvedActivity != null) {
                     startActivityForResult(captureImage, REQUEST_PHOTO)
                 } else {
-                    Toast.makeText(context, R.string.no_camera_app, Toast.LENGTH_LONG).show()
+                    Snackbar.make(this, R.string.no_camera_app, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
         photoView.setOnClickListener {
-            ZoomedInDialogFragment.zoomedPic(photoFile).apply {
-                show(this@CrimeFragment.childFragmentManager, "image")
+            if (photoFile.exists()) {
+                ZoomedInDialogFragment.zoomedPic(photoFile).apply {
+                    show(this@CrimeFragment.childFragmentManager, "image")
+                }
+            } else {
+                it.isEnabled = false
             }
         }
     }
@@ -251,9 +256,11 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         if (photoFile.exists()) {
             val bitmap = getScaledBitmap(photoFile.path, viewWidth, viewHeight)
             photoView.setImageBitmap(bitmap)
+            photoView.contentDescription = getString(R.string.crime_photo_image_description)
             Log.i("fulls","pic is $photoFile")
         } else {
             photoView.setImageDrawable(null)
+            photoView.contentDescription = getString(R.string.crime_photo_no_image_description)
             Log.i("null", "no pics")
         }
     }
