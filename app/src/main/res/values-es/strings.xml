@@ -38,4 +38,8 @@
     <string name="crime_photo_button_description">Tomar foto de la escena del crimen</string>
     <string name="crime_photo_no_image_description">Foto de la escena del crimen (no establecida)</string>
     <string name="crime_photo_image_description">Foto de la escena del crimen (establecida)</string>
+    <string name="date_label">Fecha</string>
+    <string name="time_label">Tiempo</string>
+    <string name="suspect_label">Sospechar</string>
+    <string name="contact_permission_request">Se require accesso de contacto para obtener el número.</string>
 </resources>
