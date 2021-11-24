@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
@@ -350,6 +351,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                 startActivityForResult(callContactIntent, CALL_CONTACT)
             } else {
                 Log.i("Permission: ", "Denied")
+                Snackbar.make(callSuspectButton, R.string.contact_permission_request, Snackbar.LENGTH_LONG).show()
             }
         }
 
