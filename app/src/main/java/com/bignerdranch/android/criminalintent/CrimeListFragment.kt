@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "CrimeListFragment"
-private const val SUBMIT = "submit list"
 
 class CrimeListFragment : Fragment() {
     /**
@@ -31,7 +30,7 @@ class CrimeListFragment : Fragment() {
     private lateinit var crimeRecyclerView: RecyclerView
     private lateinit var emptyView: TextView
     private lateinit var addCrime: Button
-    private var adapter: CrimeAdapter? = CrimeAdapter(emptyList())
+    private var adapter: CrimeAdapter? = CrimeAdapter()
     private val crimeListViewModel: CriminalListViewModel by lazy {
         ViewModelProvider(this).get(CriminalListViewModel::class.java)
     }
@@ -106,9 +105,7 @@ class CrimeListFragment : Fragment() {
             emptyView.visibility = View.GONE
             addCrime.visibility = View.GONE
         }
-        adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
-        adapter?.submitList(crimes as MutableList<Crime>?)
+        (crimeRecyclerView.adapter as CrimeAdapter).submitList(crimes)
     }
 
     private inner class CrimeHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
@@ -150,30 +147,20 @@ class CrimeListFragment : Fragment() {
         }
     }
 
-    private inner class CrimeAdapter(var crimes: List<Crime>): ListAdapter<Crime, CrimeHolder>(DiffCallBack()) {
+    private inner class CrimeAdapter : ListAdapter<Crime, CrimeHolder>(DiffCallBack()) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
             val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
             return CrimeHolder(view)
         }
 
         override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
-            val crime = crimes[position]
-            holder.bind(crime)
-        }
-
-        override fun getItemCount() = crimes.size
-
-        override fun submitList(crimes: MutableList<Crime>?) {
-            if (crimes != null) {
-                Log.d(SUBMIT, "Crimes submitted, crime is ${crimes.size} in number and $crimes")
-            }
-            adapter?.crimes
+            holder.bind(getItem(position))
         }
     }
 
     class DiffCallBack : DiffUtil.ItemCallback<Crime>() {
         override fun areItemsTheSame(oldItem: Crime, newItem: Crime): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Crime, newItem: Crime): Boolean {
