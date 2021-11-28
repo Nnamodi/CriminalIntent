@@ -111,8 +111,7 @@ class CrimeListFragment : Fragment() {
     private inner class CrimeHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var crime: Crime
         private val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
-        private val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
-        private val timeTextView: TextView = itemView.findViewById(R.id.crime_time)
+        private val dateTimeTextView: TextView = itemView.findViewById(R.id.crime_date_time)
         private var solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved)
         private var contactPoliceButton: Button = itemView.findViewById(R.id.contact_police_button)
 
@@ -121,12 +120,13 @@ class CrimeListFragment : Fragment() {
         }
 
         fun bind(crime: Crime) {
-            val dateFormat = SimpleDateFormat("EEEE, MMM dd, yyyy 'at' ", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault())
             val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
             this.crime = crime
+            val dateText = dateFormat.format(this.crime.date)
+            val timeText = timeFormat.format(this.crime.time)
             titleTextView.text = this.crime.title
-            dateTextView.text = dateFormat.format(this.crime.date)
-            timeTextView.text = timeFormat.format(this.crime.time)
+            dateTimeTextView.text = getString(R.string.crime_date_and_crime_time, dateText, timeText)
             solvedImageView.visibility = if (crime.isSolved) {
                 View.VISIBLE
             } else {

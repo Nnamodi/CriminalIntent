@@ -6,8 +6,7 @@
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
     <string name="crime_title">Crime Title</string>
-    <string name="crime_date">Crime Date</string>
-    <string name="crime_time">Crime Time</string>
+    <string name="crime_date_and_time">Crime Date and Time</string>
     <string name="contact_police">Contact Police</string>
     <string name="crime_is_solved">Crime is solved.</string>
     <string name="requires_police_label">Requires police</string>
@@ -41,4 +40,5 @@
     <string name="time_label">Time</string>
     <string name="suspect_label">Suspect</string>
     <string name="contact_permission_request">Contact access is required to fetch number.</string>
+    <string name="crime_date_and_crime_time">%1s at %2s</string>
 </resources>

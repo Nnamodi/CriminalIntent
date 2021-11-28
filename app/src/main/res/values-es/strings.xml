@@ -7,8 +7,7 @@
     <string name="crime_details_label">Detalles</string>
     <string name="crime_solved_label">Resuelto</string>
     <string name="crime_title">Título del Crimen</string>
-    <string name="crime_date">Fecha del Crimen</string>
-    <string name="crime_time">Tiempo del Crimen</string>
+    <string name="crime_date_and_time">Fecha y Hora del Crimen</string>
     <string name="contact_police">Contactar a la Policía</string>
     <string name="crime_is_solved">Se resuelve el Crimen.</string>
     <string name="requires_police_label">Requiere Policía</string>
@@ -42,4 +41,5 @@
     <string name="time_label">Tiempo</string>
     <string name="suspect_label">Sospechar</string>
     <string name="contact_permission_request">Se require accesso de contacto para obtener el número.</string>
+    <string name="crime_date_and_crime_time">%1s a %2s</string>
 </resources>
