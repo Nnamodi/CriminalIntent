@@ -271,7 +271,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
             requestCode == REQUEST_CONTACT && data != null -> {
                 val contactUri: Uri? = data.data
                 // Specify which fields you want your query to return values for
-                val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts._ID)
+                val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME)
                 // Perform your query - the contactUri is like a "where" clause here
                 val cursor = contactUri?.let {
                     requireActivity().contentResolver.query(it, queryFields, null, null, null)
@@ -289,23 +289,30 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                     crimeDetailViewModel.saveCrime(crime)
                     suspectButton.text = suspect
                 }
-            }
-            requestCode == CALL_CONTACT && data!= null -> {
-                val phoneURI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-                val queryFields = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                val phoneWhereClause = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?"
-                val phoneQueryParameters = listOf( crime.suspect )
-                val phoneCursor = requireActivity()
-                    .contentResolver
-                    .query(phoneURI, queryFields, phoneWhereClause, phoneQueryParameters.toTypedArray(), null)
-                phoneCursor?.use {
+                val phoneNumberId = arrayOf(ContactsContract.CommonDataKinds.Phone._ID)
+                val phoneCursorId = contactUri?.let {
+                    requireActivity().contentResolver
+                        .query(it, phoneNumberId, null, null, null)
+                }
+                phoneCursorId?.use {
                     if (it.count == 0) {
                         return
                     }
                     it.moveToFirst()
-                    val number = it.getString(0)//it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                    crime.number = number
-                    crimeDetailViewModel.saveCrime(crime)
+                    val numberId = it.getString(0)
+                    val phoneURI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+                    val numberQueryFields = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                    val phoneWhereClause = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?"
+                    val phoneQueryParameters = arrayOf(numberId)
+                    val phoneCursor = requireActivity()
+                        .contentResolver
+                        .query(phoneURI, numberQueryFields, phoneWhereClause, phoneQueryParameters, null)
+                    phoneCursor?.use { phone ->
+                        phone.moveToFirst()
+                        val number = phone.getString(0)
+                        crime.number = number
+                        crimeDetailViewModel.saveCrime(crime)
+                    }
                 }
             }
             requestCode == REQUEST_PHOTO -> {
@@ -347,7 +354,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
                         val phone = crime.number
                         data = Uri.parse("tel: $phone")
                     }
-                startActivityForResult(callContactIntent, CALL_CONTACT)
+                startActivity(callContactIntent)
             } else {
                 Log.i("Permission: ", "Denied")
                 Snackbar.make(callSuspectButton, R.string.contact_permission_request, Snackbar.LENGTH_LONG).show()
