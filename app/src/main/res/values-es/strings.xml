@@ -33,7 +33,6 @@
     <string name="no_contact_app">No se encontró ninguna aplicación de Contacto!\nPrimero descargue la aplicacíon de la Contacto.</string>
     <string name="no_suspect">Ningún sospechoso al que llamar!</string>
     <string name="no_camera_app">No se encontró ninguna aplicación de Cámara!\nPrimero descargue la aplicacíon de la Cámara.</string>
-    <string name="crime_saved">Crimen Salvado</string>
     <string name="crime_photo_button_description">Tomar foto de la escena del crimen</string>
     <string name="crime_photo_no_image_description">Foto de la escena del crimen (no establecida)</string>
     <string name="crime_photo_image_description">Foto de la escena del crimen (establecida)</string>
@@ -42,4 +41,13 @@
     <string name="suspect_label">Sospechar</string>
     <string name="contact_permission_request">Se require accesso de contacto para obtener el número.</string>
     <string name="crime_date_and_crime_time">%1s a %2s</string>
+    <string name="delete_all">Eliminar Todos</string>
+    <string name="delete">Eliminar Crimen</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="delete_everything">Elimina Todo</string>
+    <string name="delete_everything_text">Esta acción no se puede deshacer.\n?Desea continuar?</string>
+    <string name="delete_crime">Eliminar crimen</string>
+    <string name="delete_crime_text">Estás seguro que quieres eliminar \'%s\'?</string>
+    <string name="deleted">Eliminado con éxito</string>
 </resources>

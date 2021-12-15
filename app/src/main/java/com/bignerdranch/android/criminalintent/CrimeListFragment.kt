@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
@@ -91,8 +92,24 @@ class CrimeListFragment : Fragment() {
                 callbacks?.onCrimeSelected(crime.id)
                 true
             }
+            R.id.delete_crimes -> {
+                deleteCrimes()
+                true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun deleteCrimes() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton(R.string.yes) { _, _ ->
+            crimeListViewModel.deleteCrimes()
+            Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton(R.string.no) { _, _ -> }
+        builder.setTitle(R.string.delete_everything)
+        builder.setMessage(R.string.delete_everything_text)
+        builder.create().show()
     }
 
     private fun updateUI(crimes: List<Crime>) {

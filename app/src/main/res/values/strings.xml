@@ -32,7 +32,6 @@
     <string name="no_contact_app">No Contact app found!\nDownload a Contact app first.</string>
     <string name="no_suspect">No suspect to call!</string>
     <string name="no_camera_app">No Camera app found!\nDownload a Camera app first.</string>
-    <string name="crime_saved">Crime saved</string>
     <string name="crime_photo_button_description">Take photo of crime scene</string>
     <string name="crime_photo_no_image_description">Crime scene photo (not set)</string>
     <string name="crime_photo_image_description">Crime scene photo (set)</string>
@@ -41,4 +40,13 @@
     <string name="suspect_label">Suspect</string>
     <string name="contact_permission_request">Contact access is required to fetch number.</string>
     <string name="crime_date_and_crime_time">%1s at %2s</string>
+    <string name="delete_all">Delete All</string>
+    <string name="delete">Delete Crime</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_everything">Delete everything</string>
+    <string name="delete_everything_text">This action cannot be undone.\nDo you wish to continue?</string>
+    <string name="delete_crime">Delete crime</string>
+    <string name="delete_crime_text">Are you sure you want to delete \'%s\'?</string>
+    <string name="deleted">Successfully deleted</string>
 </resources>

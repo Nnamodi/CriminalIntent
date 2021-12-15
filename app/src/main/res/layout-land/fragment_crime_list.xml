@@ -7,7 +7,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/crime_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,16 +18,16 @@
         android:id="@+id/no_crime"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="247dp"
+        android:layout_marginTop="111dp"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="@string/no_crime_added_yet"
         android:textSize="34sp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/add_crime"
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:text="@string/add_crime"
         android:textStyle="bold|italic"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no_crime" />
+        app:layout_constraintTop_toBottomOf="@+id/no_crime"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

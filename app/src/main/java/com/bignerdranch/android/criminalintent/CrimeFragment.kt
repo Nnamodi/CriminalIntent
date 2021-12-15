@@ -13,11 +13,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
@@ -36,8 +35,7 @@ const val REQUEST_TIME = "requestTime"
 private const val DATE_FORMAT = "EEE, MMM dd, yyyy"
 private const val TIME_FORMAT = "hh:mm:ss a"
 private const val REQUEST_CONTACT = 1
-private const val CALL_CONTACT = 2
-private const val REQUEST_PHOTO = 3
+private const val REQUEST_PHOTO = 2
 
 class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultListener {
     private lateinit var crime: Crime
@@ -64,6 +62,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         crime = Crime()
         val crimeId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
         crimeDetailViewModel.loadCrime(crimeId)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -228,14 +227,33 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
-    override fun onDestroy() {
-        Toast.makeText(context, R.string.crime_saved, Toast.LENGTH_SHORT).show()
-        super.onDestroy()
-    }
-
     override fun onDateSelected(date: Date) {
         crime.date = date
         updateUI()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_crime_detail, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete_crime) {
+            deleteCrime(crime)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteCrime(crime: Crime) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton(R.string.yes) { _, _ ->
+            crimeDetailViewModel.deleteCrime(crime)
+            Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton(R.string.no) { _, _ -> }
+        builder.setTitle(R.string.delete_crime)
+        builder.setMessage(getString(R.string.delete_crime_text, crime.title))
+        builder.create().show()
     }
 
     private fun updateUI() {
