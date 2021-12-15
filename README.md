@@ -7,5 +7,5 @@ You can choose suspect from your contact app too.
 # Screenshots
 ![Crime list view](https://user-images.githubusercontent.com/89112108/146273404-b1d4dfb9-a8c7-449b-af48-c48bd3885fa7.png)
 ![Crime detail view](https://user-images.githubusercontent.com/89112108/146273448-76cafd11-adc8-49f8-81ad-51f04136e0d8.png)
-![Crime_sharing_screen](https://user-images.githubusercontent.com/89112108/146092497-38afc634-40bb-44f9-9cfb-ec96c4a14f06.png)
-![Time_picker_dialog](https://user-images.githubusercontent.com/89112108/146092533-84384214-7efa-4f5e-bbd9-9dcda30ec7fd.png)
+![Crime sharing screen](https://user-images.githubusercontent.com/89112108/146274209-091f8447-93df-4642-9bca-ff4d0ad1ea73.png)
+![Time picker dialog](https://user-images.githubusercontent.com/89112108/146274241-949354e7-b772-45c2-a32c-bf6109d90280.png)
