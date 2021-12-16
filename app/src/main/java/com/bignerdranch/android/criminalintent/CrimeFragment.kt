@@ -248,6 +248,7 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks, FragmentResultLi
         val builder = AlertDialog.Builder(requireContext())
         builder.setPositiveButton(R.string.yes) { _, _ ->
             crimeDetailViewModel.deleteCrime(crime)
+            parentFragmentManager.popBackStack()
             Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
         }
         builder.setNegativeButton(R.string.no) { _, _ -> }
